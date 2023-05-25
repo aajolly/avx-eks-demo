@@ -20,3 +20,4 @@ variable "region" {
 variable "controller_ip" {}
 variable "controller_username" {}
 variable "controller_password" {}
+variable "account_name" {}
