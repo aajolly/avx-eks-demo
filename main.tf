@@ -96,7 +96,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke1_gw1" {
   single_ip_snat                    = false
   # manage_transit_gateway_attachment = false
   tags                              = {
-    name = "eks_spk1_gw1"
+    name = "eks-spk1-gw1"
   }
 }
 
@@ -111,7 +111,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke2_gw1" {
   single_ip_snat                    = false
   # manage_transit_gateway_attachment = false
   tags                              = {
-    name = "eks_spk2_gw1"
+    name = "eks-spk2-gw1"
   }
 }
 
