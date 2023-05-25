@@ -439,11 +439,11 @@ resource "helm_release" "awslbc" {
   }
   set {
     name  = "image.repository"
-    value = "602401143452.dkr.ecr.eu-west-2.amazonaws.com/amazon/aws-load-balancer-controller"
+    value = "602401143452.dkr.ecr.us-east-2.amazonaws.com/amazon/aws-load-balancer-controller"
   }
   set {
     name  = "serviceAccount.create"
-    value = "false"
+    value = "true"
   }
   set {
     name = "enable-shield"
@@ -456,5 +456,17 @@ resource "helm_release" "awslbc" {
   set {
     name = "enable-wafv2"
     value = "false"
+  }
+  set {
+    name  = "clusterName"
+    value = aws_eks_cluster.eks.cluster_id
+  }
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = aws_iam_role.aws_lbc_role.arn
+  }
+  set {
+    name  = "vpcId"
+    value = var.vpc_id
   }
 }

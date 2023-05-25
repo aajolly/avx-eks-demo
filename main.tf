@@ -24,6 +24,7 @@ module "eks-spoke1" {
   eks_private_subnet_ids = module.spoke-vpc1.eks_private_subnets
   eks_public_subnet_ids = module.spoke-vpc1.public_subnets
   enable_aws_load_balancer_controller = true
+	vpc_id = module.eks-spoke1.vpc_id
 }
 
 module "eks-spoke2" {
@@ -33,6 +34,7 @@ module "eks-spoke2" {
   eks_private_subnet_ids = module.spoke-vpc2.eks_private_subnets
   eks_public_subnet_ids = module.spoke-vpc2.public_subnets
   enable_aws_load_balancer_controller = true
+	vpc_id = module.eks-spoke1.vpc_id
 }
 
 resource "aws_ecr_repository" "nyancat" {
@@ -62,7 +64,7 @@ resource "aviatrix_vpc" "transit_vpc" {
   region               = data.aws_region.current.name
   name                 = "transit-vpc"
   cidr                 = "10.0.0.0/23"
-  aviatrix_transit_vpc = true
+  # aviatrix_transit_vpc = true
   aviatrix_firenet_vpc = true
 }
 
