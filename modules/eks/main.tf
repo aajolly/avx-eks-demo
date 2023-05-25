@@ -443,7 +443,7 @@ resource "helm_release" "awslbc" {
   }
   set {
     name  = "serviceAccount.create"
-    value = "true"
+    value = "false"
   }
   set {
     name = "enable-shield"
@@ -456,17 +456,5 @@ resource "helm_release" "awslbc" {
   set {
     name = "enable-wafv2"
     value = "false"
-  }
-  set {
-    name  = "clusterName"
-    value = aws_eks_cluster.eks.cluster_id
-  }
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.aws_lbc_role.arn
-  }
-  set {
-    name  = "vpcId"
-    value = var.vpc_id
   }
 }

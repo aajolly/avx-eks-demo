@@ -10,6 +10,3 @@ variable "eks_private_subnet_ids" {
 variable "eks_public_subnet_ids" {
   type = list
 }
-variable "vpc_id" {
-  type = string
-}
