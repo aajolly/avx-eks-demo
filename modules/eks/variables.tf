@@ -1,5 +1,3 @@
-data "aws_region" "current" {}
-
 variable "enable_aws_load_balancer_controller" {
   type = bool
 }
