@@ -60,7 +60,7 @@ resource "aviatrix_vpc" "transit_vpc" {
   cloud_type           = 1
   account_name         = var.account_name
   region               = data.aws_region.current.name
-  name                 = "transit-vpc"
+  name                 = "transit-vpc-${data.aws_region.current.name}"
   cidr                 = "10.0.0.0/23"
   # aviatrix_transit_vpc = true
   aviatrix_firenet_vpc = true
