@@ -17,3 +17,6 @@ variable "region" {
   type = string
   default = ""
 }
+variable "controller_ip" {}
+variable "controller_username" {}
+variable "controller_password" {}
