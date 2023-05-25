@@ -113,7 +113,7 @@ resource "aws_security_group" "vpce_sg" {
   description = "Allow TLS"
   vpc_id      = aws_vpc.vpc.id
   tags = {
-    Name = "aajolly_vpce_sg"
+    Name = "${var.vpc_name}-vpce_secgrp"
   }
 }
 resource "aws_security_group_rule" "allow_all" {
@@ -131,7 +131,7 @@ resource "aws_security_group_rule" "tls_vpc" {
   from_port = var.tls_port
   to_port = var.tls_port
   protocol = var.protocol
-  cidr_blocks = [aws_vpc.vpc.cidr_block]
+  cidr_blocks = [aws_vpc.vpc.cidr_block, var.var.secondary_cidr]
   security_group_id = aws_security_group.vpce_sg.id
 }
 
