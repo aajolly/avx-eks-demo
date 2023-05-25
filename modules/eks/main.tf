@@ -427,7 +427,7 @@ resource "helm_release" "awslbc" {
   ]
   set {
     name = "region"
-    value = data.aws_region.current
+    value = data.aws_region.current.name
   }
   set {
     name  = "serviceAccount.name"

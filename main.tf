@@ -59,7 +59,7 @@ resource "aws_ecr_repository" "whereami" {
 resource "aviatrix_vpc" "transit_vpc" {
   cloud_type           = 1
   account_name         = var.account_name
-  region               = data.aws_region.current
+  region               = data.aws_region.current.name
   name                 = "transit-vpc"
   cidr                 = "10.0.0.0/23"
   aviatrix_transit_vpc = true
@@ -72,7 +72,7 @@ resource "aviatrix_transit_gateway" "transit_gateway_aws" {
   account_name             = var.account_name
   gw_name                  = "az-transit-gw"
   vpc_id                   = aviatrix_vpc.transit_vpc.vpc_id
-  vpc_reg                  = data.aws_region.current
+  vpc_reg                  = data.aws_region.current.name
   gw_size                  = "t3.large"
   subnet                   = aviatrix_vpc.transit_vpc.public_subnets[0].cidr
   tags                     = {
@@ -90,7 +90,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke1_gw1" {
   account_name                      = var.account_name
   gw_name                           = "eks_spk1_gw1"
   vpc_id                            = module.spoke-vpc1.vpc_id
-  vpc_reg                           = data.aws_region.current
+  vpc_reg                           = data.aws_region.current.name
   gw_size                           = "t3.micro"
   subnet                            = cidrsubnet(module.spoke-vpc1.vpc_cidr, 2, 0)
   single_ip_snat                    = false
@@ -105,7 +105,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke2_gw1" {
   account_name                      = var.account_name
   gw_name                           = "eks_spk2_gw1"
   vpc_id                            = module.spoke-vpc2.vpc_id
-  vpc_reg                           = data.aws_region.current
+  vpc_reg                           = data.aws_region.current.name
   gw_size                           = "t3.micro"
   subnet                            = cidrsubnet(module.spoke-vpc2.vpc_cidr, 2, 0)
   single_ip_snat                    = false
