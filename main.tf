@@ -94,7 +94,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke1_gw1" {
   gw_size                           = "t3.micro"
   subnet                            = cidrsubnet(module.spoke-vpc1.vpc_cidr, 2, 0)
   single_ip_snat                    = false
-  manage_transit_gateway_attachment = false
+  # manage_transit_gateway_attachment = false
   tags                              = {
     name = "eks_spk1_gw1"
   }
@@ -109,7 +109,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke2_gw1" {
   gw_size                           = "t3.micro"
   subnet                            = cidrsubnet(module.spoke-vpc2.vpc_cidr, 2, 0)
   single_ip_snat                    = false
-  manage_transit_gateway_attachment = false
+  # manage_transit_gateway_attachment = false
   tags                              = {
     name = "eks_spk2_gw1"
   }
