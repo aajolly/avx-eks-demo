@@ -18,7 +18,7 @@ module "spoke-vpc2" {
 }
 
 module "eks-spoke1" {
-  source = "./modules/spoke-eks"
+  source = "./modules/eks"
 
   cluster_name = "eks-spoke1"
   eks_private_subnet_ids = module.spoke-vpc1.eks_private_subnets
@@ -27,7 +27,7 @@ module "eks-spoke1" {
 }
 
 module "eks-spoke2" {
-  source = "./modules/spoke-eks"
+  source = "./modules/eks"
 
   cluster_name = "eks-spoke2"
   eks_private_subnet_ids = module.spoke-vpc2.eks_private_subnets
