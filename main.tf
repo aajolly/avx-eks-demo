@@ -1,6 +1,6 @@
 # VPC Definitions
 module "spoke-vpc1" {
-  source = "./modules/vpc"
+  source = "./vpc"
 
   vpc_name = "spoke-vpc1"
   primary_cidr = "10.2.0.0/23"
@@ -9,7 +9,7 @@ module "spoke-vpc1" {
 }
 
 module "spoke-vpc2" {
-  source = "./modules/vpc"
+  source = "./vpc"
 
   vpc_name = "spoke-vpc2"
   primary_cidr = "10.4.0.0/23"
@@ -18,7 +18,7 @@ module "spoke-vpc2" {
 }
 
 module "eks-spoke1" {
-  source = "./modules/spoke-eks"
+  source = "./spoke-eks"
 
   cluster_name = "eks-spoke1"
   eks_private_subnet_ids = module.spoke-vpc1.eks_private_subnets
@@ -27,7 +27,7 @@ module "eks-spoke1" {
 }
 
 module "eks-spoke2" {
-  source = "./modules/spoke-eks"
+  source = "./spoke-eks"
 
   cluster_name = "eks-spoke2"
   eks_private_subnet_ids = module.spoke-vpc2.eks_private_subnets
