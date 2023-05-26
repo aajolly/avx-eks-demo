@@ -73,7 +73,7 @@ resource "aviatrix_transit_gateway" "transit_gateway_aws" {
   gw_name                  = "transit-gw"
   vpc_id                   = aviatrix_vpc.transit_vpc.vpc_id
   vpc_reg                  = data.aws_region.current.name
-  gw_size                  = "t3.large"
+  gw_size                  = "c5n.xlarge"
   subnet                   = aviatrix_vpc.transit_vpc.public_subnets[0].cidr
   tags                     = {
     name = "transit-gw"
