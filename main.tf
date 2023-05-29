@@ -92,7 +92,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke1_gw1" {
   vpc_id                            = module.spoke-vpc1.vpc_id
   vpc_reg                           = data.aws_region.current.name
   gw_size                           = "t3.micro"
-  subnet                            = module.spoke-vpc1.public_subnets[0]
+  subnet                            = cidrsubnet(module.spoke-vpc1.vpc_cidr, 2, 0)
   single_ip_snat                    = false
   # manage_transit_gateway_attachment = false
   tags                              = {
@@ -107,7 +107,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke2_gw1" {
   vpc_id                            = module.spoke-vpc2.vpc_id
   vpc_reg                           = data.aws_region.current.name
   gw_size                           = "t3.micro"
-  subnet                            = module.spoke-vpc2.public_subnets[0]
+  subnet                            = cidrsubnet(module.spoke-vpc2.vpc_cidr, 2, 0)
   single_ip_snat                    = false
   # manage_transit_gateway_attachment = false
   tags                              = {
@@ -139,7 +139,7 @@ resource "aviatrix_gateway_snat" "eks_spk1_gw1_snat" {
   snat_mode = "customized_snat"
   snat_policy {
     src_cidr    = "100.64.0.0/16"
-    dst_cidr    = "10.0.0.0/8"
+    dst_cidr    = "0.0.0.0/0"
     protocol    = "all"
     interface   = ""
     connection  = "transit-gw"
@@ -154,7 +154,7 @@ resource "aviatrix_gateway_snat" "eks_spk2_gw1_snat" {
   snat_mode = "customized_snat"
   snat_policy {
     src_cidr    = "100.64.0.0/16"
-    dst_cidr    = "10.0.0.0/8"
+    dst_cidr    = "0.0.0.0/0"
     protocol    = "all"
     interface   = ""
     connection  = "transit-gw"
