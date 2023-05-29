@@ -92,7 +92,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke1_gw1" {
   vpc_id                            = module.spoke-vpc1.vpc_id
   vpc_reg                           = data.aws_region.current.name
   gw_size                           = "t3.micro"
-  subnet                            = cidrsubnet(module.spoke-vpc1.vpc_cidr, 2, 0)
+  subnet                            = module.spoke-vpc1.public_subnets[0]
   single_ip_snat                    = false
   # manage_transit_gateway_attachment = false
   tags                              = {
@@ -107,7 +107,7 @@ resource "aviatrix_spoke_gateway" "eks_spoke2_gw1" {
   vpc_id                            = module.spoke-vpc2.vpc_id
   vpc_reg                           = data.aws_region.current.name
   gw_size                           = "t3.micro"
-  subnet                            = cidrsubnet(module.spoke-vpc2.vpc_cidr, 2, 0)
+  subnet                            = module.spoke-vpc2.public_subnets[0]
   single_ip_snat                    = false
   # manage_transit_gateway_attachment = false
   tags                              = {
