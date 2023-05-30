@@ -30,7 +30,7 @@ post-processors {
 # Push the Docker image to your Amazon ECR registry
 # Ideally, use an IAM role for credentials
 	post-processor "docker-push" {
-				ecr_login = false
+				login = false
 				login_server = var.nyancat_ecr_url
 		}
 	}
