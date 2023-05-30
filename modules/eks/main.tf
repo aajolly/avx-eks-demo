@@ -363,7 +363,7 @@ resource "aws_iam_role_policy_attachment" "aws_lbc_role_policy_attach" {
 # Update Kubeconfig
 resource "null_resource" "merge_kubeconfig" {
   triggers = {
-    always = timestamp()
+    eks_cluster_name = aws_eks_cluster.eks.name
   }
 
   depends_on = [aws_eks_cluster.eks]
@@ -371,10 +371,10 @@ resource "null_resource" "merge_kubeconfig" {
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
     command = <<EOT
-      # set -e
+      set -e
       echo 'Applying Auth ConfigMap with kubectl...'
       aws eks wait cluster-active --name '${aws_eks_cluster.eks.name}'
-      aws eks update-kubeconfig --name '${aws_eks_cluster.eks.name}' --alias '${aws_eks_cluster.eks.name}-${data.aws_region.current.name}' --region=${data.aws_region.current.name}
+      aws eks update-kubeconfig --name '${aws_eks_cluster.eks.name}' --alias '${aws_eks_cluster.eks.name}' --region=${data.aws_region.current.name}
     EOT
   }
 }
