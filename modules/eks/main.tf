@@ -439,7 +439,7 @@ resource "helm_release" "awslbc" {
   }
   set {
     name  = "image.repository"
-    value = "602401143452.dkr.ecr.${var.region}.amazonaws.com/amazon/aws-load-balancer-controller"
+    value = "602401143452.dkr.ecr.${data.aws_region.current.name}.amazonaws.com/amazon/aws-load-balancer-controller"
   }
   set {
     name  = "serviceAccount.create"
