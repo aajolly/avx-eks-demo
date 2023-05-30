@@ -126,7 +126,7 @@ resource "aviatrix_spoke_transit_attachment" "eks_spk1_gw1_attach" {
 }
 
 resource "aviatrix_spoke_transit_attachment" "eks_spk2_gw1_attach" {
-  spoke_gw_name   = "eks_spk2_gw1"
+  spoke_gw_name   = "eks-spk2-gw1"
   transit_gw_name = "transit-gw"
   depends_on = [
     aviatrix_spoke_gateway.eks_spoke2_gw1,
