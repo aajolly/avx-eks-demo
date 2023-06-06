@@ -1,9 +1,9 @@
 #!/bin/bash
-REGION=$1
-AWS_ACCOUNT_ID=$2
-echo "## Installing Docker"
+REGION=$(aws configure get region)
+AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+echo "## Updating Packages"
 sudo yum update -y
-sudo amazon-linux-extras install docker
+# sudo amazon-linux-extras install docker -y
 
 echo "Pull Images"
 docker pull aajolly/nyancat:latest
