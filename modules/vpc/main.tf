@@ -46,6 +46,7 @@ resource "aws_subnet" "private_subnet" {
   tags = {
     Name                                       = "${var.vpc_name}-private_subnet_${count.index + 1}"
     Reach                                      = "Private"
+    kubernetes.io/role/internal-elb = 1
 	}
 }
 # Worker Node Subnets from Secondary CIDR
