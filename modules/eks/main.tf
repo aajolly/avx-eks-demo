@@ -334,12 +334,12 @@ data "aws_iam_policy_document" "aws_lbc_role_trust_policy" {
     }
     condition {
       test = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks-cluster.url, "https://", "")}:sub"
+      variable = "${replace(aws_iam_openid_connect_provider.eks-cluster.url, "https://", "")}:aud"
       values = ["sts.amazonaws.com"]
     }
     condition {
       test = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks-cluster.url, "https://", "")}:aud"
+      variable = "${replace(aws_iam_openid_connect_provider.eks-cluster.url, "https://", "")}:sub"
       values = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
     }
   }

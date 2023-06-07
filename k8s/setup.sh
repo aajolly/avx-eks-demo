@@ -3,7 +3,7 @@ echo "## Setting Environment Variables..."
 REGION=$(aws configure get region)
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 
-echo "## Updating Packages"
+echo "## Updating Packages..."
 sudo yum update -y
 
 echo "Uninstall AWS CLI v1..."
@@ -23,6 +23,8 @@ chmod +x ./kubectl
 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
 
 echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+
+echo "## Setting aliases..."
 echo 'alias k=kubectl' >> ~/.bashrc
 echo 'alias tf=terraform' >> ~/.bashrc
 source ~/.bashrc
