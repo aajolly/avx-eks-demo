@@ -45,3 +45,110 @@ echo "## Push Images to Amazon ECR..."
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/nyancat:latest
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/whereami:latest
 
+echo "## Setting Image URI environment variable..."
+IMAGE_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/whereami:latest
+
+echo "## Deploying demo applications..."
+# EKS1
+kubectl config use-context eks-spoke1
+cat <<EOF > demo-app-eks1.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whereami-eks1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: whereami-eks1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: whereami-eks1
+    spec:
+      containers:
+      - name: whereami-eks1
+        image: ${IMAGE_URI}
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whereami-eks1-int
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internal
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  type: LoadBalancer
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+  - IPv4
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: whereami-eks1
+EOF
+kubectl apply -f demo-app-eks1.yaml
+# EKS 2
+kubectl config use-context eks-spoke2
+cat <<EOF > demo-app-eks2.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whereami-eks2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: whereami-eks2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: whereami-eks2
+    spec:
+      containers:
+      - name: whereami-eks2
+        image: ${IMAGE_URI}
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whereami-eks2-int
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internal
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  type: LoadBalancer
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+  - IPv4
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: whereami-eks2
+EOF
+kubectl apply -f demo-app-eks2.yaml
+
