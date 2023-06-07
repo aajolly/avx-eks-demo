@@ -49,7 +49,7 @@ echo "## Setting Image URI environment variable..."
 IMAGE_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/whereami:latest
 
 echo "## Deploying demo applications..."
-# EKS1
+echo "## EKS1..."
 kubectl config use-context eks-spoke1
 cat <<EOF > demo-app-eks1.yaml
 apiVersion: apps/v1
@@ -100,7 +100,8 @@ spec:
     app: whereami-eks1
 EOF
 kubectl apply -f demo-app-eks1.yaml
-# EKS 2
+
+echo "## EKS2..."
 kubectl config use-context eks-spoke2
 cat <<EOF > demo-app-eks2.yaml
 apiVersion: apps/v1
