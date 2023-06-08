@@ -49,7 +49,7 @@ docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/nyancat:latest
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/whereami:latest
 
 echo "## Setting Image URI environment variable..."
-IMAGE_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/whereami:latest
+IMAGE_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/nyancat:latest
 
 echo "## Deploying demo applications..."
 echo "## EKS1..."
@@ -58,12 +58,12 @@ cat <<EOF > demo-app-eks1.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: whereami-eks1
+  name: nyancat-eks1
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: whereami-eks1
+      app: nyancat-eks1
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -72,10 +72,10 @@ spec:
   template:
     metadata:
       labels:
-        app: whereami-eks1
+        app: nyancat-eks1
     spec:
       containers:
-      - name: whereami-eks1
+      - name: nyancat-eks1
         image: ${IMAGE_URI}
         ports:
         - containerPort: 80
@@ -83,7 +83,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: whereami-eks1-int
+  name: nyancat-eks1-int
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-scheme: internal
@@ -100,7 +100,7 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    app: whereami-eks1
+    app: nyancat-eks1
 EOF
 kubectl apply -f demo-app-eks1.yaml
 
@@ -110,12 +110,12 @@ cat <<EOF > demo-app-eks2.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: whereami-eks2
+  name: nyancat-eks2
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: whereami-eks2
+      app: nyancat-eks2
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -124,10 +124,10 @@ spec:
   template:
     metadata:
       labels:
-        app: whereami-eks2
+        app: nyancat-eks2
     spec:
       containers:
-      - name: whereami-eks2
+      - name: nyancat-eks2
         image: ${IMAGE_URI}
         ports:
         - containerPort: 80
@@ -135,7 +135,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: whereami-eks2-int
+  name: nyancat-eks2-int
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-scheme: internal
@@ -152,7 +152,7 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    app: whereami-eks2
+    app: nyancat-eks2
 EOF
 kubectl apply -f demo-app-eks2.yaml
 
