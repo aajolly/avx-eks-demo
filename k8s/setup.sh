@@ -5,6 +5,7 @@ AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 
 echo "## Updating Packages..."
 sudo yum update -y
+sudo yum install jq -y
 
 echo "Uninstall AWS CLI v1..."
 sudo yum remove awscli -y
@@ -27,6 +28,8 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 echo "## Setting aliases..."
 echo 'alias k=kubectl' >> ~/.bashrc
 echo 'alias tf=terraform' >> ~/.bashrc
+echo 'alias eks1="kubectl config use-context eks-spoke1"' >> ~/.bashrc
+echo 'alias eks2="kubectl config use-context eks-spoke1"' >> ~/.bashrc
 source ~/.bashrc
 k version
 
@@ -50,7 +53,7 @@ IMAGE_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/whereami:latest
 
 echo "## Deploying demo applications..."
 echo "## EKS1..."
-kubectl config use-context eks-spoke1
+eks1
 cat <<EOF > demo-app-eks1.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -102,7 +105,7 @@ EOF
 kubectl apply -f demo-app-eks1.yaml
 
 echo "## EKS2..."
-kubectl config use-context eks-spoke2
+eks2
 cat <<EOF > demo-app-eks2.yaml
 apiVersion: apps/v1
 kind: Deployment
