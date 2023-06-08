@@ -1,4 +1,6 @@
 #!/bin/bash
+REGION=$(aws configure get region)
+AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 echo "## Pull Images from Docker Hub..."
 docker pull aajolly/nyancat:latest
 docker pull erjosito/whereami:1.3

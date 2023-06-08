@@ -29,6 +29,6 @@ echo "## Setting aliases..."
 echo 'alias k=kubectl' >> ~/.bashrc
 echo 'alias tf=terraform' >> ~/.bashrc
 echo 'alias eks1="kubectl config use-context eks-spoke1"' >> ~/.bashrc
-echo 'alias eks2="kubectl config use-context eks-spoke1"' >> ~/.bashrc
+echo 'alias eks2="kubectl config use-context eks-spoke2"' >> ~/.bashrc
 source ~/.bashrc
 k version
