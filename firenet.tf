@@ -56,7 +56,11 @@ resource "aws_iam_instance_profile" "palo" {
 # Copy files to the remotestate bucket
 resource "aws_s3_bucket" "palo" {
   bucket = "paloalto-bootstrap-${var.region}"
-  acl    = "private"
+}
+
+resource "aws_s3_bucket_acl" "palo_s3_acl" {
+	bucket = aws_s3_bucket.palo.id
+	acl = "private"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "palo_s3_config" {
