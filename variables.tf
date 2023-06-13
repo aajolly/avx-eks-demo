@@ -17,6 +17,10 @@ variable "region" {
   type = string
   default = ""
 }
+variable "key_name" {
+	type = string
+	default = "aajolly-apse2"
+}
 variable "controller_ip" {}
 variable "controller_username" {}
 variable "controller_password" {}

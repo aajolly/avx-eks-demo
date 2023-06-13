@@ -114,10 +114,12 @@ resource "aviatrix_firewall_instance" "firewall_instance" {
   management_subnet      = aviatrix_vpc.transit_vpc.public_subnets[0].subnet_id
   # zone                   = local.use_gwlb ? local.az1 : (contains(["azure", "gcp"], local.cloud) ? local.zone : null)
   # firewall_image_id      = var.firewall_image_id
-  tags                   = var.tags
+  tags                     = {
+    name = "aws-pan-fw"
+  }
   # username               = local.username
   # password               = local.password
-  ssh_public_key         = local.ssh_public_key
+  # ssh_public_key         = local.ssh_public_key
   # sic_key                = var.sic_key
   key_name               = var.key_name
   # availability_domain    = local.availability_domain
