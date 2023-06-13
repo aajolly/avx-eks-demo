@@ -57,16 +57,17 @@ resource "aws_iam_instance_profile" "palo" {
 resource "aws_s3_bucket" "palo" {
   bucket = "paloalto-bootstrap-${var.region}"
   acl    = "private"
+}
 
-  server_side_encryption_configuration {
-    rule {
-      bucket_key_enabled = false
+resource "aws_s3_bucket_server_side_encryption_configuration" "palo_s3_config" {
+	bucket = aws_s3_bucket.palo.id
 
-      apply_server_side_encryption_by_default {
+	rule {
+		bucket_key_enabled = false
+		apply_server_side_encryption_by_default {
         sse_algorithm = "AES256"
       }
-    }
-  }
+	}
 }
 resource "aws_s3_bucket_object" "content" {
   bucket = aws_s3_bucket.palo.id
