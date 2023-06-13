@@ -72,7 +72,17 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "palo_s3_config" {
         sse_algorithm = "AES256"
       }
 	}
+	depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 }
+
+# Resource to avoid error "AccessControlListNotSupported: The bucket does not allow ACLs"
+resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
+  bucket = aws_s3_bucket.palo.id
+  rule {
+    object_ownership = "ObjectWriter"
+  }
+}
+
 resource "aws_s3_object" "content" {
   bucket = aws_s3_bucket.palo.id
   acl    = "private"
