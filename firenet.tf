@@ -122,37 +122,21 @@ resource "aviatrix_firewall_instance" "firewall_instance" {
   firewall_name          = "aws-pan-fw"
   firewall_size          = "c5n.xlarge"
   vpc_id                 = aviatrix_vpc.transit_vpc.vpc_id
-  firewall_image         = "Palo Alto Networks VM-Series Next-Generation Firewall Bundle 1"
-  # firewall_image_version = "11.0.1"
+  firewall_image         = "Palo Alto Networks VM-Series Next-Generation Firewall Bundle 2"
   egress_subnet          = aviatrix_vpc.transit_vpc.public_subnets[1].subnet_id
   firenet_gw_name        = "aws-pan-fw"
   management_subnet      = aviatrix_vpc.transit_vpc.public_subnets[0].subnet_id
-  # zone                   = local.use_gwlb ? local.az1 : (contains(["azure", "gcp"], local.cloud) ? local.zone : null)
-  # firewall_image_id      = var.firewall_image_id
-  tags                     = {
-    name = "aws-pan-fw"
-  }
-  # username               = local.username
-  # password               = local.password
-  # ssh_public_key         = local.ssh_public_key
-  # sic_key                = var.sic_key
   key_name               = var.key_name
-  # availability_domain    = local.availability_domain
-  # fault_domain           = local.fault_domain
-  # management_vpc_id      = local.is_palo && local.cloud == "gcp" ? aviatrix_vpc.management_vpc[0].vpc_id : null
-  # egress_vpc_id          = local.cloud == "gcp" ? aviatrix_vpc.egress_vpc[0].vpc_id : null
 
   #Bootstrapping
-  # storage_access_key     = var.storage_access_key_1
-  # file_share_folder      = var.file_share_folder_1
-  # user_data              = var.user_data_1
-  iam_role               = aws_iam_role.palo.name
+  iam_role               = "aviatrix-bootstrap-VM-S3-role"
   bootstrap_bucket_name  = "paloalto-bootstrap-${local.region}"
+	tags                     = {
+    name = "aws-pan-fw"
+  }
 
   lifecycle {
-    ignore_changes = [
-      firewall_size,          #Do not replace FW instance, after out of band resizing of instance
-    ]
+    ignore_changes = [firewall_size]
   }
 }
 
