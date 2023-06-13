@@ -137,7 +137,7 @@ resource "aviatrix_firewall_instance" "firewall_instance" {
   # file_share_folder      = var.file_share_folder_1
   # user_data              = var.user_data_1
   iam_role               = aws_iam_role.palo.name
-  bootstrap_bucket_name  = aws_s3_bucket.palo
+  bootstrap_bucket_name  = "paloalto-bootstrap-${var.region}"
 
   lifecycle {
     ignore_changes = [
