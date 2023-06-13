@@ -55,7 +55,7 @@ resource "aws_iam_instance_profile" "palo" {
 # S3 Resources
 # Copy files to the remotestate bucket
 resource "aws_s3_bucket" "palo" {
-  bucket = "paloalto-bootstrap-${var.region}"
+  bucket = "paloalto-bootstrap-${local.region}"
 }
 
 resource "aws_s3_bucket_acl" "palo_s3_acl" {
@@ -137,7 +137,7 @@ resource "aviatrix_firewall_instance" "firewall_instance" {
   # file_share_folder      = var.file_share_folder_1
   # user_data              = var.user_data_1
   iam_role               = aws_iam_role.palo.name
-  bootstrap_bucket_name  = "paloalto-bootstrap-${var.region}"
+  bootstrap_bucket_name  = "paloalto-bootstrap-${local.region}"
 
   lifecycle {
     ignore_changes = [
