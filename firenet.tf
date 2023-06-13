@@ -79,7 +79,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "palo_s3_config" {
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
   bucket = aws_s3_bucket.palo.id
   rule {
-    object_ownership = "ObjectWriter"
+    object_ownership = "BucketOwnerPreferred"
   }
 }
 
