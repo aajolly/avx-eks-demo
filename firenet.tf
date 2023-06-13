@@ -73,34 +73,34 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "palo_s3_config" {
       }
 	}
 }
-resource "aws_s3_bucket_object" "content" {
+resource "aws_s3_object" "content" {
   bucket = aws_s3_bucket.palo.id
   acl    = "private"
   key    = "content/"
   source = "/dev/null"
 }
 
-resource "aws_s3_bucket_object" "license" {
+resource "aws_s3_object" "license" {
   bucket = aws_s3_bucket.palo.id
   acl    = "private"
   key    = "license/"
   source = "/dev/null"
 }
 
-resource "aws_s3_bucket_object" "software" {
+resource "aws_s3_object" "software" {
   bucket = aws_s3_bucket.palo.id
   acl    = "private"
   key    = "software/"
   source = "/dev/null"
 }
-resource "aws_s3_bucket_object" "bootstrap" {
+resource "aws_s3_object" "bootstrap" {
   bucket = aws_s3_bucket.palo.id
   key    = "config/bootstrap.xml"
   source = "./paloalto/bootstrap.xml"
   etag   = filemd5("./paloalto/bootstrap.xml")
 }
 
-resource "aws_s3_bucket_object" "init_cfg" {
+resource "aws_s3_object" "init_cfg" {
   bucket = aws_s3_bucket.palo.id
   key    = "config/init-cfg.txt"
   source = "./paloalto/init-cfg.txt"
