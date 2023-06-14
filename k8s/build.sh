@@ -23,6 +23,7 @@ IMAGE_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/nyancat:latest
 echo "## Deploying demo applications..."
 echo "## EKS1..."
 eks1
+kubectl set env daemonset -n kube-system aws-node AWS_VPC_K8S_CNI_EXTERNALSNAT=true
 cat <<EOF > demo-app-eks1.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -75,6 +76,7 @@ kubectl apply -f demo-app-eks1.yaml
 
 echo "## EKS2..."
 eks2
+kubectl set env daemonset -n kube-system aws-node AWS_VPC_K8S_CNI_EXTERNALSNAT=true
 cat <<EOF > demo-app-eks2.yaml
 apiVersion: apps/v1
 kind: Deployment
