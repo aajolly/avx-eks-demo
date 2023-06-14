@@ -130,7 +130,7 @@ resource "aviatrix_firewall_instance" "firewall_instance" {
   key_name               = var.key_name
 
   #Bootstrapping
-  iam_role               = "aviatrix-s3-role"
+  iam_role               = aws_iam_role.palo.name
   bootstrap_bucket_name  = "paloalto-bootstrap-${local.region}"
 	tags                     = {
     name = "aws-pan-fw"
