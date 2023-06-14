@@ -117,8 +117,8 @@ resource "aviatrix_spoke_gateway" "eks_spoke2_gw1" {
 
 # Spoke to Transit attachments
 resource "aviatrix_spoke_transit_attachment" "eks_spk1_gw1_attach" {
-  spoke_gw_name   = "eks-spk1-gw1"
-  transit_gw_name = "transit-gw"
+  spoke_gw_name   = aviatrix_spoke_gateway.eks_spoke1_gw1.gw_name
+  transit_gw_name = aviatrix_transit_gateway.transit_gateway_aws.gw_name
   depends_on = [
     aviatrix_spoke_gateway.eks_spoke1_gw1,
     aviatrix_transit_gateway.transit_gateway_aws
@@ -126,8 +126,8 @@ resource "aviatrix_spoke_transit_attachment" "eks_spk1_gw1_attach" {
 }
 
 resource "aviatrix_spoke_transit_attachment" "eks_spk2_gw1_attach" {
-  spoke_gw_name   = "eks-spk2-gw1"
-  transit_gw_name = "transit-gw"
+  spoke_gw_name   = aviatrix_spoke_gateway.eks_spoke2_gw1.gw_name
+  transit_gw_name = aviatrix_transit_gateway.transit_gateway_aws.gw_name
   depends_on = [
     aviatrix_spoke_gateway.eks_spoke2_gw1,
     aviatrix_transit_gateway.transit_gateway_aws
@@ -135,14 +135,14 @@ resource "aviatrix_spoke_transit_attachment" "eks_spk2_gw1_attach" {
 }
 # NAT Rules on Spoke Gateways
 resource "aviatrix_gateway_snat" "eks_spk1_gw1_snat" {
-  gw_name   = "eks-spk1-gw1"
+  gw_name   = aviatrix_spoke_gateway.eks_spoke1_gw1.gw_name
   snat_mode = "customized_snat"
   snat_policy {
     src_cidr    = "100.64.0.0/16"
     dst_cidr    = "0.0.0.0/0"
     protocol    = "all"
     interface   = ""
-    connection  = "transit-gw"
+    connection  = aviatrix_transit_gateway.transit_gateway_aws.gw_name
     snat_ips    = aviatrix_spoke_gateway.eks_spoke1_gw1.private_ip
   }
   depends_on = [
@@ -150,14 +150,14 @@ resource "aviatrix_gateway_snat" "eks_spk1_gw1_snat" {
   ]
 }
 resource "aviatrix_gateway_snat" "eks_spk2_gw1_snat" {
-  gw_name   = "eks-spk2-gw1"
+  gw_name   = aviatrix_spoke_gateway.eks_spoke2_gw1.gw_name
   snat_mode = "customized_snat"
   snat_policy {
     src_cidr    = "100.64.0.0/16"
     dst_cidr    = "0.0.0.0/0"
     protocol    = "all"
     interface   = ""
-    connection  = "transit-gw"
+    connection  = aviatrix_transit_gateway.transit_gateway_aws.gw_name
     snat_ips    = aviatrix_spoke_gateway.eks_spoke2_gw1.private_ip
   }
   depends_on = [

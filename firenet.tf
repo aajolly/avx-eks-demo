@@ -119,7 +119,7 @@ resource "aws_s3_object" "init_cfg" {
 
 #Firewall instances
 resource "aviatrix_firewall_instance" "firewall_instance" {
-  firenet_gw_name        = "transit-gw"
+  firenet_gw_name        = aviatrix_transit_gateway.transit_gateway_aws.gw_name
 	firewall_name          = "aws-pan-fw"
   firewall_size          = "c5n.xlarge"
   vpc_id                 = aviatrix_vpc.transit_vpc.vpc_id
@@ -143,7 +143,7 @@ resource "aviatrix_firewall_instance" "firewall_instance" {
 
 resource "aviatrix_firewall_instance_association" "firenet_instance" {
   vpc_id          = aviatrix_vpc.transit_vpc.vpc_id
-  firenet_gw_name = "transit-gw"
+  firenet_gw_name = aviatrix_transit_gateway.transit_gateway_aws.gw_name
   instance_id     = aviatrix_firewall_instance.firewall_instance.instance_id
   firewall_name   = aviatrix_firewall_instance.firewall_instance.firewall_name
   lan_interface = aviatrix_firewall_instance.firewall_instance.lan_interface
@@ -157,4 +157,10 @@ resource "aviatrix_firenet" "firenet" {
   vpc_id                               = aviatrix_vpc.transit_vpc.vpc_id
 
   depends_on = [aviatrix_firewall_instance_association.firenet_instance]
+}
+
+# Create an Aviatrix Transit FireNet Policy
+resource "aviatrix_transit_firenet_policy" "test_transit_firenet_policy" {
+  transit_firenet_gateway_name = aviatrix_transit_gateway.transit_gateway_aws.gw_name
+  inspected_resource_name      = "SPOKE:${aviatrix_spoke_gateway.eks_spoke1_gw1.gw_name}"
 }
