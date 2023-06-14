@@ -120,7 +120,7 @@ resource "aws_s3_object" "init_cfg" {
 #Firewall instances
 resource "aviatrix_firewall_instance" "firewall_instance" {
   firewall_name          = "aws-pan-fw"
-  firewall_size          = "c5n.xlarge"
+  firewall_size          = "m5.xlarge"
   vpc_id                 = aviatrix_vpc.transit_vpc.vpc_id
   firewall_image         = "Palo Alto Networks VM-Series Next-Generation Firewall Bundle 2"
   egress_subnet          = aviatrix_vpc.transit_vpc.public_subnets[1].cidr
