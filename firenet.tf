@@ -143,7 +143,7 @@ resource "aviatrix_firewall_instance" "firewall_instance" {
 
 resource "aviatrix_firewall_instance_association" "firenet_instance" {
   vpc_id          = aviatrix_vpc.transit_vpc.vpc_id
-  firenet_gw_name = "aws-pan-fw"
+  firenet_gw_name = "transit-gw"
   instance_id     = aviatrix_firewall_instance.firewall_instance.instance_id
   firewall_name   = aviatrix_firewall_instance.firewall_instance.firewall_name
   lan_interface = aviatrix_firewall_instance.firewall_instance.lan_interface
