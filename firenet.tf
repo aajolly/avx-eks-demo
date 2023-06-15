@@ -54,8 +54,12 @@ resource "aws_iam_instance_profile" "palo" {
 
 # S3 Resources
 # Copy files to the remotestate bucket
+resource "random_id" "s3" {
+  byte_length = 8
+}
+
 resource "aws_s3_bucket" "palo" {
-  bucket = "paloalto-bootstrap-${local.region}"
+  bucket = "paloalto-bootstrap-${drandom_id.s3.hex}"
 }
 
 resource "aws_s3_bucket_acl" "palo_s3_acl" {
