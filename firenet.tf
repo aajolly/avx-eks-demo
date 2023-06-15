@@ -68,6 +68,7 @@ resource "aws_s3_bucket" "palo" {
 resource "aws_s3_bucket_acl" "palo_s3_acl" {
 	bucket = aws_s3_bucket.palo.id
 	acl = "private"
+	depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "palo_s3_config" {
