@@ -20,3 +20,7 @@ output "whereami_registry_id" {
     description = "URL of the whereami respository"
     value = aws_ecr_repository.whereami.registry_id
 }
+output "Palo_Alto_Mgmt_IP" {
+	description = "Palo Alto VM-Series Management Public IP"
+	value = aviatrix_firewall_instance.firewall_instance.public_ip
+}

@@ -170,4 +170,8 @@ resource "aviatrix_firenet" "firenet" {
 resource "aviatrix_transit_firenet_policy" "test_transit_firenet_policy" {
   transit_firenet_gateway_name = aviatrix_transit_gateway.transit_gateway_aws.gw_name
   inspected_resource_name      = "SPOKE:${aviatrix_spoke_gateway.eks_spoke1_gw1.gw_name}"
+
+	depends_on = [ 
+		aviatrix_spoke_transit_attachment.eks_spk1_gw1_attach,
+		aviatrix_spoke_transit_attachment.eks_spk2_gw1_attach ]
 }
